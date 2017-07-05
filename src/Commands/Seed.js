@@ -12,7 +12,6 @@
 const Command = require('./Command')
 
 class Seed extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -49,7 +48,7 @@ class Seed extends Command {
       this.checkEnv(flags.force)
       const seedsPath = this.helpers.seedsPath()
       const selectedFiles = flags.files ? flags.files.split(',') : null
-      const seedsFiles = this.loadFiles(seedsPath, selectedFiles)
+      const seedsFiles = this.loadSeedFiles(selectedFiles)
       require(this.helpers.databasePath('factory'))
 
       yield this.seeder.exec(seedsFiles)

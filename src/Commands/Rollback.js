@@ -12,7 +12,6 @@
 const Command = require('./Command')
 
 class Rollback extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -48,7 +47,7 @@ class Rollback extends Command {
     try {
       this.checkEnv(flags.force)
 
-      const migrationsFiles = this.loadFiles(this.helpers.migrationsPath())
+      const migrationsFiles = this.loadMigrationFiles()
       const MigrationsRunner = this.migrations
       const response = yield new MigrationsRunner().down(migrationsFiles, flags.batch, flags.log)
 

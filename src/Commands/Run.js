@@ -13,7 +13,6 @@ const Command = require('./Command')
 const prettyHrTime = require('pretty-hrtime')
 
 class Run extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -50,7 +49,7 @@ class Run extends Command {
       this.checkEnv(flags.force)
 
       const selectedFiles = flags.files ? flags.files.split(',') : null
-      const migrationsFiles = this.loadFiles(this.helpers.migrationsPath(), selectedFiles)
+      const migrationsFiles = this.loadMigrationFiles(selectedFiles)
       const MigrationsRunner = this.migrations
       const response = yield new MigrationsRunner().up(migrationsFiles, flags.log)
 

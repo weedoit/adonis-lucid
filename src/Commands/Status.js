@@ -12,7 +12,6 @@
 const Command = require('./Command')
 
 class Status extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -47,7 +46,7 @@ class Status extends Command {
     const MigrationsRunner = this.migrations
     const migrationsRunner = new MigrationsRunner()
     try {
-      const migrationsFiles = this.loadFiles(this.helpers.migrationsPath())
+      const migrationsFiles = this.loadMigrationFiles()
       const response = yield migrationsRunner.status(migrationsFiles)
       this.table(['Migration', 'Status'], response)
     } catch (e) {

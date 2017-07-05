@@ -12,7 +12,6 @@
 const Command = require('./Command')
 
 class Reset extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -47,7 +46,7 @@ class Reset extends Command {
     try {
       this.checkEnv(flags.force)
 
-      const migrationsFiles = this.loadFiles(this.helpers.migrationsPath())
+      const migrationsFiles = this.loadMigrationFiles()
       const MigrationsRunner = this.migrations
       const response = yield new MigrationsRunner().down(migrationsFiles, 0, flags.log)
 

@@ -15,7 +15,6 @@ const CE = require('../Exceptions')
 const BaseCommand = Ioc.use('Adonis/Src/Command')
 
 class Command extends BaseCommand {
-
   constructor (Helpers, Migrations, Seeder) {
     super()
     this.helpers = Helpers
@@ -58,6 +57,56 @@ class Command extends BaseCommand {
    */
   loadFiles (fromPath, onlyFiles) {
     return util.loadJsFiles(fromPath, onlyFiles)
+  }
+
+  /**
+   * load js files from a given directory.
+   *
+   * @param  {String}  fromPath
+   * @param  {Array}  onlyFiles
+   * @return {Object}
+   *
+   * @public
+   */
+  loadMigrationFiles (onlyFiles) {
+    return util.getModules().reduce((acc, module) => {
+      let base = this.helpers.appPath();
+      let tree = util.loadJsFiles(`${base}/Modules/${module}/Database/migrations`, onlyFiles);
+      let file, key;
+
+      for (key in tree) {
+        if (tree.hasOwnProperty(key)) {
+          acc[`${module}@${key}`] = tree[key];
+        }
+      }
+
+      return acc;
+    }, {});
+  }
+
+  /**
+   * load js files from a given directory.
+   *
+   * @param  {String}  fromPath
+   * @param  {Array}  onlyFiles
+   * @return {Object}
+   *
+   * @public
+   */
+  loadSeedFiles (onlyFiles) {
+    return util.getModules().reduce((acc, module) => {
+      let base = this.helpers.appPath();
+      let tree = util.loadJsFiles(`${base}/Modules/${module}/Database/seeds`, onlyFiles);
+      let file, key;
+
+      for (key in tree) {
+        if (tree.hasOwnProperty(key)) {
+          acc[`${module}@${key}`] = tree[key];
+        }
+      }
+
+      return acc;
+    }, {});
   }
 
   /**
@@ -108,7 +157,6 @@ class Command extends BaseCommand {
       item.queries.forEach((query) => this.log(`>SQL: ${query}`))
     })
   }
-
 }
 
 module.exports = Command

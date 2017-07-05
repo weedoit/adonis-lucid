@@ -12,7 +12,6 @@
 const Command = require('./Command')
 
 class Refresh extends Command {
-
   /**
    * signature to be used by ace
    *
@@ -47,7 +46,7 @@ class Refresh extends Command {
   * handle (options, flags) {
     try {
       this.checkEnv(flags.force)
-      const migrationsFiles = this.loadFiles(this.helpers.migrationsPath())
+      const migrationsFiles = this.loadMigrationFiles()
       const MigrationsRunner = this.migrations
       yield new MigrationsRunner().down(migrationsFiles, 0, flags.log)
       const response = yield new MigrationsRunner().up(migrationsFiles, flags.log)
