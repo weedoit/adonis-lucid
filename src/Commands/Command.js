@@ -60,6 +60,29 @@ class Command extends BaseCommand {
   }
 
   /**
+   * load factories files
+   *
+   * @return {Object}
+   *
+   * @public
+   */
+  loadFactoriesFiles () {
+    return util.getModules().reduce((acc, module) => {
+      let base = this.helpers.appPath();
+      let tree = util.loadJsFiles(`${base}/Modules/${module}/Database`, ['factory.js']);
+      let file, key;
+
+      for (key in tree) {
+        if (tree.hasOwnProperty(key)) {
+          acc[`${module}@${key}`] = tree[key];
+        }
+      }
+
+      return acc;
+    }, {});
+  }
+  
+  /**
    * load js files from a given directory.
    *
    * @param  {String}  fromPath
