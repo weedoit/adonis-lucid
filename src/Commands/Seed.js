@@ -49,7 +49,7 @@ class Seed extends Command {
       const seedsPath = this.helpers.seedsPath()
       const selectedFiles = flags.files ? flags.files.split(',') : null
       const seedsFiles = this.loadSeedFiles(selectedFiles)
-      require(this.helpers.databasePath('factory'))
+      this.loadFactoriesFiles()
 
       yield this.seeder.exec(seedsFiles)
       this.success(`${this.icon('success')} seeded database successfully`)
